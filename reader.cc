@@ -1,20 +1,18 @@
 
 
 #include <iostream>
-#include <list>
-
+#include <vector>
 #include "reader.h"
-#include "netTuple.h"
-#include "chain.h"
+#include "chainfileParser.h"
+
+using namespace a2;
 
 
-void a2::Reader::handleEvent(a2::Event event) {
+void Reader::handleEvent(Event event) {
 }
 
 int main() {
-	a2::NetTuple tuple = a2::NetTuple("localhost", "10865");
-	std::list<a2::NetTuple> tupleList = std::list<a2::NetTuple>();
-	tupleList.push_back(tuple);
-	a2::Chain chain = a2::Chain(tupleList);
-	std::cout << chain << std::endl;
+	ChainfileParser parser = ChainfileParser::sharedInstance();
+	Chain c = parser.parse();
+	std::cout << c << std::endl;
 }

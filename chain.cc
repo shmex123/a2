@@ -1,33 +1,32 @@
 
 
 #include <iostream>
-#include <list>
-
+#include <vector>
 #include "chain.h"
 
 
-a2::Chain::Chain(unsigned char* bytes) {
-}
-
-a2::Chain::Chain(std::list<NetTuple> tuples) {
-	nodes = tuples;
-}
-
-a2::NetTuple* a2::Chain::getNextSS() {
-	return NULL;
-}
-
-bool a2::Chain::isLastHop(a2::NetTuple tuple) {
-	return false;
-}
-
-std::ostream & operator<<(std::ostream & Str, const a2::Chain & v) {
-	/*
-	for(a2::NetTuple tuple : v.nodes) {
-		Str << tuple.server << ":" << tuple.port << " ";
+namespace a2 {
+	Chain::Chain(unsigned char* bytes) {
 	}
-	*/
-	Str << "testing";
-	return Str;
-}
 
+	Chain::Chain(std::vector<NetTuple> tuples) {
+		nodes = tuples;
+	}
+
+	NetTuple* Chain::getNextSS() {
+		return NULL;
+	}
+
+	bool Chain::isLastHop(NetTuple tuple) {
+		return false;
+	}
+
+	std::ostream& operator<<(std::ostream& o, const Chain& c) {
+		for(NetTuple tuple : c.nodes) {
+			o << tuple;
+			if(tuple != c.nodes.back())
+				o << ", ";
+		}
+		return o;
+	}
+}

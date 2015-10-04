@@ -6,21 +6,21 @@
 #ifndef CHAIN_H
 #define CHAIN_H
 
-#include <list>
+#include <vector>
 
 #include "netTuple.h"
 #include "event.h"
 
 namespace a2 {
 class Chain: Event {
-	public:
+public:
 	Chain(unsigned char* bytes);
-	Chain(std::list<NetTuple> tuples);
+	Chain(std::vector<NetTuple> tuples);
 	NetTuple* getNextSS();
 	bool isLastHop(NetTuple);
-	friend std::ostream& operator<<(std::ostream&, const Chain &c);
-	private:
-	std::list<NetTuple> nodes;
+	friend std::ostream& operator<<(std::ostream& o, const Chain& c);
+private:
+	std::vector<NetTuple> nodes;
 };
 }
 
