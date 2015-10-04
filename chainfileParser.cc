@@ -17,20 +17,21 @@ namespace a2 {
 		std::ifstream in(filename);
 
 		int linenum = 0;
+		int readcount = 1;
 		std::vector<NetTuple> tuples = std::vector<NetTuple>();
-		while(!in.eof()) {
-			linenum++;
+		while(!in.eof() && linenum <= readcount) {
 			std::string line;
 			std::getline(in, line);
 
-			if(linenum <= 1) {
-				//int count = std::stoi(line);
+			if(++linenum <= 1) {
+				readcount = std::stoi(line);
 				continue;
 			}
+
 			
 			std::string delimiter = ", ";
 			std::string server = line.substr(0, line.find(delimiter));
-			std::string port = line.substr(line.find(delimiter), line.length() - 1);
+			std::string port = line.substr(line.find(delimiter) + 1, line.length() - 1);
 			
 			tuples.push_back(NetTuple(server, port));
 		}
