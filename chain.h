@@ -14,7 +14,7 @@
 namespace a2 {
 class Chain: Event {
 public:
-	Chain(unsigned char* bytes);
+	Chain(std::vector<unsigned char> bytes);
 	Chain(std::vector<NetTuple> tuples);
 	NetTuple* getNextSS();
 	bool isLastHop(NetTuple);

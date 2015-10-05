@@ -39,13 +39,10 @@ int main(int argc, char** argv) {
         }
 
 	try {
-		Chain c = NULL;
-		if(filename.empty()) {
-			c = ChainfileParser::sharedInstance().parse();
-		} else {
-			c = ChainfileParser::sharedInstance().parse(filename);
-		}
+		Chain c = ChainfileParser::sharedInstance().parse(filename);
 		std::cout << c << std::endl;
+		Chain c2 = Chain(c.getBytes());
+		std::cout << c2 << std::endl;
 		RequestEvent r = RequestEvent(url);
 		RequestEvent r2 = RequestEvent(r.getBytes());
 	} catch(const std::invalid_argument& ia) {

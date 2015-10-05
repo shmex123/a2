@@ -10,11 +10,13 @@
 #include <algorithm>
 #include "chainfileParser.h"
 #include "chain.h"
+#include "protocol.h"
 
 namespace a2 {
 
 
 	Chain ChainfileParser::parse(std::string filename) {
+		if(filename.empty()) filename = DEFAULT_CHAIN_FILENAME;
 		std::ifstream in(filename);
 
 		int linenum = 0;
@@ -43,7 +45,7 @@ namespace a2 {
 	}
 
 	Chain ChainfileParser::parse() {
-		return parse("chaingang.txt");
+		return parse(DEFAULT_CHAIN_FILENAME);
 	}
 }
 
