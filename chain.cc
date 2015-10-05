@@ -29,7 +29,7 @@ namespace a2 {
 			std::vector<unsigned char>::const_iterator nodeend = data.end();
 			std::vector<unsigned char> nodebytes(nodebegin, nodeend);
 			NetTuple tuple = NetTuple(nodebytes);
-			ptroffset = tuple.numBytes;
+			ptroffset += tuple.numBytes;
 			nodes.push_back(tuple);
 		}
 	}
