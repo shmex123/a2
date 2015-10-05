@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <iterator>
+#include <algorithm>
 #include "chainfileParser.h"
 #include "chain.h"
 
@@ -32,6 +33,8 @@ namespace a2 {
 			std::string delimiter = ", ";
 			std::string server = line.substr(0, line.find(delimiter));
 			std::string port = line.substr(line.find(delimiter) + 1, line.length() - 1);
+			server.erase(std::remove_if(server.begin(), server.end(), isspace), server.end());
+			port.erase(std::remove_if(port.begin(), port.end(), isspace), port.end());
 			
 			tuples.push_back(NetTuple(server, port));
 		}
