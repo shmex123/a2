@@ -19,6 +19,8 @@ public:
 	NetTuple* getNextSS();
 	bool isLastHop(NetTuple);
 	friend std::ostream& operator<<(std::ostream& o, const Chain& c);
+	int getType() override;
+	std::vector<unsigned char> getBytes() override;
 private:
 	std::vector<NetTuple> nodes;
 };

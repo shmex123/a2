@@ -11,7 +11,7 @@
 namespace a2 {
 class EventHandler {
 	public:
-	virtual void handleEvent(Event event) = 0;
+	virtual void handleEvent(Event& event) = 0;
 	private:
 };
 }

@@ -11,7 +11,7 @@
 namespace a2 {
 class Reader: EventHandler {
 	public:
-	void handleEvent(Event event);
+	void handleEvent(Event& event);
 };
 }
 

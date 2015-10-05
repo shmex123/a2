@@ -20,6 +20,6 @@ namespace a2 {
 	}
 
 	std::ostream& operator<<(std::ostream& o, const NetTuple& n) {
-		return o << n.server << ":" << n.port;
+		return o << n.server << ", " << n.port;
 	}
 }

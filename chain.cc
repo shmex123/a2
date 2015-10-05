@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "chain.h"
+#include "protocol.h"
 
 
 namespace a2 {
@@ -22,11 +23,20 @@ namespace a2 {
 	}
 
 	std::ostream& operator<<(std::ostream& o, const Chain& c) {
+		o << "chainlist is: " << std::endl;
 		for(NetTuple tuple : c.nodes) {
 			o << tuple;
 			if(tuple != c.nodes.back())
-				o << ", ";
+				o << std::endl;
 		}
 		return o;
+	}
+
+	int Chain::getType() {
+		return CHAIN_EVENT;
+	}
+
+	std::vector<unsigned char> Chain::getBytes() {
+		return std::vector<unsigned char>();
 	}
 }
