@@ -74,7 +74,6 @@ namespace a2 {
 		std::vector<unsigned char> nodecountbytes = Utils::sharedInstance().intToChars(nodes.size());
 		data.insert(data.end(), nodecountbytes.begin(), nodecountbytes.end());
 		for(NetTuple tuple : nodes) {
-			std::cout << "Writing: " << tuple << std::endl;
 			std::vector<unsigned char> nodebytes = tuple.getBytes();
 			data.insert(data.end(), nodebytes.begin(), nodebytes.end());
 		}

@@ -32,8 +32,6 @@ namespace a2 {
 		std::vector<unsigned char> portbytes(portbegin, portend);
 		int portParam = Utils::sharedInstance().charsToInt(portbytes);
 		port = std::to_string(portParam);
-
-		std::cout << "Created: " << server << ":" << port << " bytecount: " << numBytes << std::endl;
 	}
 
 	std::vector<unsigned char> NetTuple::getBytes() {
