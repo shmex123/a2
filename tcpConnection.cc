@@ -3,6 +3,7 @@
  * -----------------------------------------------------------------------------
  */
 
+#include <vector>
 #include <iostream>
 #include <netdb.h>
 #include <cstring>
@@ -37,10 +38,13 @@ void TCPConnection::sendEvent(Event& event) {
 	send(sockfd, bytes, data.size(), 0);
 }
 
-void TCPConnection::listen() {
-	unsigned char typebytes[4];
-	int response = recv(sockfd, typebytes, 4, 0);
-	std::cout << response << std::endl;
+std::vector<unsigned char> TCPConnection::receive(int numBytes) {
+	unsigned char bytes[numBytes];
+	int response = recv(sockfd, bytes, numBytes, 0);
+	std::vector<unsigned char> bytevector = std::vector<unsigned char>();
+	for(int i = 0; i < numBytes; i++)
+		bytevector.push_back(bytes[i]);
+	return bytevector;
 }
 
 void onEventReceived(Event& event) {

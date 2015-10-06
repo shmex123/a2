@@ -9,6 +9,7 @@
 #include "requestEvent.h"
 #include "protocol.h"
 #include "tcpConnection.h"
+#include "utils.h"
 
 using namespace a2;
 
@@ -47,9 +48,11 @@ int main(int argc, char** argv) {
 		RequestEvent r = RequestEvent(url);
 		std::cout << "Request: " << url << std::endl;
 		std::cout << c << std::endl;
-		TCPConnection con = TCPConnection(&reader, "127.0.0.1", "10865");
+		TCPConnection con = TCPConnection(&reader, "127.0.0.1", "11111");
 		con.sendEvent(r);
-		con.listen();
+		std::vector<unsigned char> typebytes = con.receive(4);
+		int type = Utils::sharedInstance().charsToInt(typebytes);
+		std::cout << "Type: " << type << std::endl;
 	} catch(const std::invalid_argument& ia) {
 		std::cerr << "Error with file ";
 		if(filename.empty()) {

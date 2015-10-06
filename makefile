@@ -7,12 +7,16 @@ CC = g++
 CFLAGS = -Wall -std=c++11 -Wfatal-errors
 
 # build target executable
-TARGET1 = awget
+AWGET = awget
+SS = ss
 
-all: $(TARGET1)
+all: $(AWGET) $(SS)
 
-$(TARGET1): reader.cc
-	$(CC) $(CFLAGS) -o $(TARGET1) reader.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc
+$(AWGET): reader.cc
+	$(CC) $(CFLAGS) -o $(AWGET) reader.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc
+
+$(SS): steppingStone.cc
+	$(CC) $(CFLAGS) -o $(SS) steppingStone.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc
 
 clean:
-	$(RM) $(TARGET1)
+	$(RM) $(AWGET) $(SS)

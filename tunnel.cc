@@ -1,14 +1,19 @@
 /* -----------------------------------------------------------------------------
- * Protocol
+ * Tunnel Implementation
  * -----------------------------------------------------------------------------
  */
 
-#ifndef PROTOCOL_H
-#define PROTOCOL_H
+#include <vector>
+#include <string>
+#include "tunnel.h"
 
-#define SERVER_BACKLOG 16
-#define DEFAULT_CHAIN_FILENAME "chaingang.txt"
-#define REQUEST_EVENT 1
-#define CHAIN_EVENT 2
+namespace a2 {
+class Tunnel {
+	public:
+	Tunnel(int sourceSock, Chain chain);
+	private:
+};
+}
+
 
 #endif
