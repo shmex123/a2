@@ -9,9 +9,9 @@
 #include "eventHandler.h"
 
 namespace a2 {
-class Reader: EventHandler {
+class Reader: public EventHandler {
 	public:
-	void handleEvent(Event& event);
+	void handleEvent(Event& event) override;
 };
 }
 

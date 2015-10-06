@@ -11,7 +11,7 @@
 #include "event.h"
 
 namespace a2 {
-class RequestEvent: Event {
+class RequestEvent: public Event {
 	public:
 	RequestEvent(std::string url);
 	RequestEvent(std::vector<unsigned char> data);

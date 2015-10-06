@@ -7,6 +7,8 @@
 #include "reader.h"
 #include "chainfileParser.h"
 #include "requestEvent.h"
+#include "protocol.h"
+#include "tcpConnection.h"
 
 using namespace a2;
 
@@ -23,9 +25,9 @@ int main(int argc, char** argv) {
 	if(argc < 2) {
 		printUsage();
 	}
-
 	std::string url = argv[1];
-	std::cout << "Request: " << url << std::endl;
+	if(url == "-c") printUsage();
+
 	std::string filename;
 	int opt;
         while((opt = getopt(argc, argv, "c:")) != -1) {
@@ -38,21 +40,25 @@ int main(int argc, char** argv) {
                 }
         }
 
+	Reader reader = Reader();
+
 	try {
 		Chain c = ChainfileParser::sharedInstance().parse(filename);
-		std::cout << c << std::endl;
-		Chain c2 = Chain(c.getBytes());
-		std::cout << c2 << std::endl;
 		RequestEvent r = RequestEvent(url);
-		RequestEvent r2 = RequestEvent(r.getBytes());
+		std::cout << "Request: " << url << std::endl;
+		std::cout << c << std::endl;
+		TCPConnection con = TCPConnection(&reader, "127.0.0.1", "10865");
+		con.sendEvent(r);
+		con.listen();
 	} catch(const std::invalid_argument& ia) {
-		std::cerr << "Could not find file ";
-		if(url.empty()) {
-			std::cerr << "'chaingang.txt'";
+		std::cerr << "Error with file ";
+		if(filename.empty()) {
+			std::cerr << "'" << DEFAULT_CHAIN_FILENAME << "'";
 		} else {
-			std::cerr << "'" << url << "'";
+			std::cerr << "'" << filename << "'";
 		}
-		std::cerr << "!" << std::endl;
+		std::cerr << "!";
+		std::cerr << " Does the file exist?" << std::endl;
 		printUsage();
 	}
 }

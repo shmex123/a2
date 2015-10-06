@@ -12,7 +12,7 @@ TARGET1 = awget
 all: $(TARGET1)
 
 $(TARGET1): reader.cc
-	$(CC) $(CFLAGS) -o $(TARGET1) reader.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc
+	$(CC) $(CFLAGS) -o $(TARGET1) reader.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc
 
 clean:
 	$(RM) $(TARGET1)
