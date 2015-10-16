@@ -9,7 +9,11 @@
 #include <cstring>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <pthread.h>
 #include "tcpConnection.h"
+#include "utils.h"
+#include "protocol.h"
+#include "eventFactory.h"
 
 namespace a2 {
 
@@ -25,11 +29,17 @@ TCPConnection::TCPConnection(EventHandler* h, std::string s, std::string p) {
 	getaddrinfo(server.c_str(), port.c_str(), &hints, &res);
 	sockfd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
         connect(sockfd, res->ai_addr, res->ai_addrlen);
+	if(pthread_create(&recv_thread, NULL, startReceive, this)) {
+		std::cerr << "Failed to start receive thread!" << std::endl;
+	}
 }
 
 TCPConnection::TCPConnection(EventHandler* h, int s) {
 	handler = h;
 	sockfd = s;
+	if(pthread_create(&recv_thread, NULL, startReceive, this)) {
+		std::cerr << "Failed to start receive thread!" << std::endl;
+	}
 }
 
 void TCPConnection::sendEvent(Event& event) {
@@ -47,6 +57,18 @@ std::vector<unsigned char> TCPConnection::receive(int numBytes) {
 	return bytevector;
 }
 
-void onEventReceived(Event& event) {
+void TCPConnection::join() {
+	if(pthread_join(recv_thread, NULL)) {
+		std::cout << "Error joining receive thread!" << std::endl;
+	}
 }
+
+void* TCPConnection::startReceive(void* param) {
+	TCPConnection con = *((TCPConnection *)param);
+	Event* e = EventFactory::sharedInstance().createEvent(con);
+	con.handler->handleEvent(*e);
+	return NULL;
+}
+
+
 }

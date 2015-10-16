@@ -10,10 +10,12 @@
 
 #include "netTuple.h"
 #include "event.h"
+#include "tcpConnection.h"
 
 namespace a2 {
-class Chain: Event {
+class Chain: public Event {
 public:
+	Chain(TCPConnection con);
 	Chain(std::vector<unsigned char> bytes);
 	Chain(std::vector<NetTuple> tuples);
 	NetTuple* getNextSS();

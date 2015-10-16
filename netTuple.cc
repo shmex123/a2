@@ -4,6 +4,7 @@
 #include <vector>
 #include "netTuple.h"
 #include "utils.h"
+#include "tcpConnection.h"
 
 
 namespace a2 {
@@ -11,6 +12,21 @@ namespace a2 {
 		server = serverParam;
 		port = portParam;
 		numBytes = 0;
+	}
+
+	NetTuple::NetTuple(TCPConnection con) {
+		std::vector<unsigned char> urllenbytes = con.receive(4);
+		int urllen = Utils::sharedInstance().charsToInt(urllenbytes);
+	
+		std::vector<unsigned char> urlbytes = con.receive(urllen);
+		std::string urlParam(urlbytes.begin(), urlbytes.end());
+		server = urlParam;
+		
+		numBytes = urllen + 8;
+
+		std::vector<unsigned char> portbytes = con.receive(4);
+		int portParam = Utils::sharedInstance().charsToInt(portbytes);
+		port = std::to_string(portParam);
 	}
 
 	NetTuple::NetTuple(std::vector<unsigned char> data) {

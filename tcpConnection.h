@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <string>
+#include <pthread.h>
 #include "event.h"
 #include "eventHandler.h"
 
@@ -18,12 +19,14 @@ class TCPConnection {
 	TCPConnection(EventHandler* handlerP, int sockfdP);
 	void sendEvent(Event& event);
 	std::vector<unsigned char> receive(int numBytes);
+	void join();
 	private:
 	std::string server;
 	std::string port;
 	int sockfd;
+	pthread_t recv_thread;
 	EventHandler* handler;
-	void onEventReceived(Event& event);
+	static void* startReceive(void* param);
 };
 }
 

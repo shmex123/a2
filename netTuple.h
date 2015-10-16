@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <vector>
+#include "tcpConnection.h"
 
 
 namespace a2 {
@@ -15,6 +16,7 @@ class NetTuple {
 	public:
 	NetTuple(std::string serverParam, std::string portParam);
 	NetTuple(std::vector<unsigned char> data);
+	NetTuple(TCPConnection con);
 	std::string server;
 	std::string port;
 	int numBytes;

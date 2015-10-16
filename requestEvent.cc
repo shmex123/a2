@@ -8,10 +8,20 @@
 #include "requestEvent.h"
 #include "protocol.h"
 #include "utils.h"
+#include "tcpConnection.h"
 
 namespace a2 {
 
 RequestEvent::RequestEvent(std::string urlParam) {
+	url = urlParam;
+}
+
+RequestEvent::RequestEvent(TCPConnection con) {
+	std::vector<unsigned char> urllenbytes = con.receive(4);
+	int urllen = Utils::sharedInstance().charsToInt(urllenbytes);
+	
+	std::vector<unsigned char> urlbytes = con.receive(urllen);
+	std::string urlParam(urlbytes.begin(), urlbytes.end());
 	url = urlParam;
 }
 

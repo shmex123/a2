@@ -20,6 +20,11 @@ void printUsage() {
 }
 
 void Reader::handleEvent(Event& event) {
+	switch(event.getType()) {
+	case REQUEST_EVENT: std::cout << "handle event for request event called" << std:: endl; break;
+	case CHAIN_EVENT: std::cout << "handle event for chain event called" << std:: endl; break;
+	default: std::cout << "unknown event sent to event handler" << std::endl; break;
+	}
 }
 
 int main(int argc, char** argv) {
@@ -50,9 +55,10 @@ int main(int argc, char** argv) {
 		std::cout << c << std::endl;
 		TCPConnection con = TCPConnection(&reader, "127.0.0.1", "11111");
 		con.sendEvent(r);
-		std::vector<unsigned char> typebytes = con.receive(4);
-		int type = Utils::sharedInstance().charsToInt(typebytes);
-		std::cout << "Type: " << type << std::endl;
+		con.join();
+		//std::vector<unsigned char> typebytes = con.receive(4);
+		//int type = Utils::sharedInstance().charsToInt(typebytes);
+		//std::cout << "Type: " << type << std::endl;
 	} catch(const std::invalid_argument& ia) {
 		std::cerr << "Error with file ";
 		if(filename.empty()) {

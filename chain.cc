@@ -5,9 +5,21 @@
 #include "chain.h"
 #include "protocol.h"
 #include "utils.h"
+#include "tcpConnection.h"
 
 
 namespace a2 {
+	
+	Chain::Chain(TCPConnection con) {
+		std::vector<unsigned char> nodecountbytes = con.receive(4);
+		int nodecount = Utils::sharedInstance().charsToInt(nodecountbytes);
+		
+		nodes = std::vector<NetTuple>();
+		for(int i = 0; i < nodecount; i++) {
+			nodes.push_back(NetTuple(con));
+		}
+	}
+
 	Chain::Chain(std::vector<unsigned char> data) {
 		std::vector<unsigned char>::const_iterator typebegin = data.begin();
 		std::vector<unsigned char>::const_iterator typeend = data.begin() + 4;
@@ -63,6 +75,7 @@ namespace a2 {
 	std::vector<unsigned char> Chain::getBytes() {
 		// Wireformat
 		// Type: Int
+		// TotalBytes: Int
 		// NodeCount: Int
 		// [ UrlLength: Int
 		//   Url: String
