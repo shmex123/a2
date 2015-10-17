@@ -23,6 +23,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& o, const Chain& c);
 	int getType() override;
 	std::vector<unsigned char> getBytes() override;
+	NetTuple* getTupleFromHostname();
 private:
 	std::vector<NetTuple> nodes;
 };

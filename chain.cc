@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <unistd.h>
 #include "chain.h"
 #include "protocol.h"
 #include "utils.h"
@@ -56,6 +57,23 @@ namespace a2 {
 
 	bool Chain::isLastHop(NetTuple tuple) {
 		return false;
+	}
+
+	NetTuple* Chain::getTupleFromHostname() {
+		char name[150];
+		name[149] = '\0';
+		gethostname(name, 149);
+		std::string hostname = std::string(name);
+		std::cout << "Hostname: " << std::endl;
+		
+		NetTuple* ptr = NULL;
+		for(NetTuple tuple : nodes) {
+			if(tuple.server == hostname) {
+				ptr = &tuple;
+				break;
+			}
+		}
+		return ptr;
 	}
 
 	std::ostream& operator<<(std::ostream& o, const Chain& c) {

@@ -54,7 +54,6 @@ std::vector<unsigned char> TCPConnection::receive(int numBytes) {
 	int response = recv(sockfd, bytes, numBytes, 0);
 	std::vector<unsigned char> bytevector = std::vector<unsigned char>();
 	if(response <= 0) {
-		std::cout << "received invalid recv response!\n";
 		throw std::runtime_error("Socket closed.");
 	}
 	for(int i = 0; i < numBytes; i++)
