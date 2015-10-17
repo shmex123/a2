@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <string>
+#include "tunnel.h"
 
 namespace a2 {
 class SteppingStone {
@@ -17,6 +18,9 @@ class SteppingStone {
 	private:
 	std::string port;
 	int serversockfd;
+	std::vector<Tunnel> tunnels;
+	void onClientConnect(int sockfd);
+	void startServer();
 };
 }
 

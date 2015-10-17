@@ -3,6 +3,7 @@
  * -----------------------------------------------------------------------------
  */
 
+#include <iostream>
 #include <vector>
 #include "event.h"
 #include "eventFactory.h"

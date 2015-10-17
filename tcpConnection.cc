@@ -3,6 +3,7 @@
  * -----------------------------------------------------------------------------
  */
 
+#include <stdexcept>
 #include <vector>
 #include <iostream>
 #include <netdb.h>
@@ -52,6 +53,10 @@ std::vector<unsigned char> TCPConnection::receive(int numBytes) {
 	unsigned char bytes[numBytes];
 	int response = recv(sockfd, bytes, numBytes, 0);
 	std::vector<unsigned char> bytevector = std::vector<unsigned char>();
+	if(response <= 0) {
+		std::cout << "received invalid recv response!\n";
+		throw std::runtime_error("Socket closed.");
+	}
 	for(int i = 0; i < numBytes; i++)
 		bytevector.push_back(bytes[i]);
 	return bytevector;
@@ -65,10 +70,15 @@ void TCPConnection::join() {
 
 void* TCPConnection::startReceive(void* param) {
 	TCPConnection con = *((TCPConnection *)param);
-	Event* e = EventFactory::sharedInstance().createEvent(con);
-	con.handler->handleEvent(*e);
+	try {
+	while(1) {
+		Event* e = EventFactory::sharedInstance().createEvent(con);
+		con.handler->handleEvent(*e);
+	}
+	} catch(const std::runtime_error& e) {
+		std::cout << "Connection closed." << std::endl;
+	}
 	return NULL;
 }
-
 
 }

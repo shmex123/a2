@@ -8,11 +8,20 @@
 
 #include <vector>
 #include <string>
+#include "tcpConnection.h"
+#include "chain.h"
+#include "eventHandler.h"
+#include "event.h"
 
 namespace a2 {
-class Tunnel {
+class Tunnel : public EventHandler {
 	public:
-	Tunnel(int sourceSock, Chain chain);
+	Tunnel(int sockfd);
+	void handleEvent(Event& event);
+	private:
+	TCPConnection* sourceConnection;
+	Chain* chain;
+	
 };
 }
 

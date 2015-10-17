@@ -54,7 +54,9 @@ int main(int argc, char** argv) {
 		std::cout << "Request: " << url << std::endl;
 		std::cout << c << std::endl;
 		TCPConnection con = TCPConnection(&reader, "127.0.0.1", "11111");
+		con.sendEvent(c);
 		con.sendEvent(r);
+		std::cout << "Sent request event!" << std::endl;
 		con.join();
 		//std::vector<unsigned char> typebytes = con.receive(4);
 		//int type = Utils::sharedInstance().charsToInt(typebytes);
