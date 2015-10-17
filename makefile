@@ -13,10 +13,10 @@ SS = ss
 all: $(AWGET) $(SS)
 
 $(AWGET): reader.cc
-	$(CC) $(CFLAGS) -o $(AWGET) reader.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc eventFactory.cc
+	$(CC) $(CFLAGS) -o $(AWGET) reader.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc eventFactory.cc documentEvent.cc
 
 $(SS): steppingStone.cc
-	$(CC) $(CFLAGS) -o $(SS) steppingStone.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc eventFactory.cc tunnel.cc
+	$(CC) $(CFLAGS) -o $(SS) steppingStone.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc eventFactory.cc tunnel.cc documentEvent.cc
 
 clean:
 	$(RM) $(AWGET) $(SS)

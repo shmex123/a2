@@ -10,6 +10,7 @@
 #include "tcpConnection.h"
 #include "protocol.h"
 #include "requestEvent.h"
+#include "documentEvent.h"
 #include "chain.h"
 #include "utils.h"
 
@@ -21,6 +22,8 @@ Event* EventFactory::createEvent(TCPConnection con) {
 	switch(type) {
 	case REQUEST_EVENT: return new RequestEvent(con);
 	case CHAIN_EVENT: return new Chain(con);
+	case DOCUMENT_EVENT: return new DocumentEvent(con);
+	default: return NULL;
 	}
 }
 }

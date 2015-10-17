@@ -10,5 +10,6 @@
 #define DEFAULT_CHAIN_FILENAME "chaingang.txt"
 #define REQUEST_EVENT 1
 #define CHAIN_EVENT 2
+#define DOCUMENT_EVENT 3
 
 #endif
