@@ -26,6 +26,7 @@ void Reader::handleEvent(Event& event) {
 
 void Reader::handleDocumentEvent(DocumentEvent& doc) {
 	std::cout << doc << std::endl;
+	throw std::runtime_error("");
 }
 
 
@@ -61,6 +62,7 @@ int main(int argc, char** argv) {
 		std::cout << "Request: " << url << std::endl;
 		std::cout << c << std::endl;
 		NetTuple* tuple = c.getNextSS();
+		if(tuple == NULL) throw std::invalid_argument("Chain file is empty");
 		TCPConnection con = TCPConnection(&reader, tuple->server, tuple->port);
 		con.sendEvent(c);
 		con.sendEvent(r);
@@ -77,7 +79,7 @@ int main(int argc, char** argv) {
 			std::cerr << "'" << filename << "'";
 		}
 		std::cerr << "!";
-		std::cerr << " Does the file exist?" << std::endl;
+		std::cerr << " Is the file missing or empty?" << std::endl;
 		printUsage();
 	}
 }

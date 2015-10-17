@@ -20,8 +20,8 @@ class RequestEvent: public Event {
 	friend std::ostream& operator<<(std::ostream& o, const RequestEvent& r);
 	int getType() override;
 	std::vector<unsigned char> getBytes() override;
-	private:
 	std::string url;
+	private:
 };
 }
 

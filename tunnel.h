@@ -11,6 +11,7 @@
 #include "tcpConnection.h"
 #include "chain.h"
 #include "requestEvent.h"
+#include "documentEvent.h"
 #include "eventHandler.h"
 #include "event.h"
 
@@ -21,9 +22,11 @@ class Tunnel : public EventHandler {
 	void handleEvent(Event& event);
 	private:
 	TCPConnection* sourceConnection;
+	TCPConnection* destConnection;
 	Chain* chain;
 	void handleChainEvent(Chain& c);
-	void handleRequestEvent(RequestEvent& c);
+	void handleRequestEvent(RequestEvent& r);
+	void handleDocumentEvent(DocumentEvent& d);
 	void performWget(RequestEvent& r);
 	void forwardRequest(RequestEvent& r);
 	

@@ -54,13 +54,29 @@ namespace a2 {
 	}
 
 	NetTuple* Chain::getNextSS() {
+		if(nodes.size() == 0) return NULL;
 		srand(time(NULL));
 		int index = rand() % nodes.size();
 		return &nodes[index];
 	}
 
-	bool Chain::isLastHop(NetTuple tuple) {
-		return nodes.back() == tuple;
+	void Chain::removeFromChain(NetTuple* tuple) {
+		int deleteIndex = -1;
+		NetTuple t = *tuple;
+		for(unsigned int i = 0; i < nodes.size(); i++) {
+			if(nodes[i] == t) {
+				deleteIndex = i;
+			}
+		}
+		if(deleteIndex != -1) {
+			nodes.erase(nodes.begin() + deleteIndex);
+		} else {
+			std::cerr << "Could not remove tuple from chain!" << std::endl;
+		}
+	}
+
+	bool Chain::isLastHop() {
+		return nodes.size() == 0;
 	}
 
 	NetTuple* Chain::getTupleFromHostname() {
@@ -68,7 +84,6 @@ namespace a2 {
 		name[149] = '\0';
 		gethostname(name, 149);
 		std::string hostname = std::string(name);
-		std::cout << "Hostname: " << hostname << std::endl;
 		
 		NetTuple* ptr = NULL;
 		for(NetTuple tuple : nodes) {
@@ -81,6 +96,7 @@ namespace a2 {
 	}
 
 	std::ostream& operator<<(std::ostream& o, const Chain& c) {
+		if(c.nodes.size() == 0) return o << "chainlist is empty" << std::endl;
 		o << "chainlist is: " << std::endl;
 		for(NetTuple tuple : c.nodes) {
 			o << tuple;

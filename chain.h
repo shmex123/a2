@@ -19,7 +19,8 @@ public:
 	Chain(std::vector<unsigned char> bytes);
 	Chain(std::vector<NetTuple> tuples);
 	NetTuple* getNextSS();
-	bool isLastHop(NetTuple);
+	bool isLastHop();
+	void removeFromChain(NetTuple* tuple);
 	friend std::ostream& operator<<(std::ostream& o, const Chain& c);
 	int getType() override;
 	std::vector<unsigned char> getBytes() override;
