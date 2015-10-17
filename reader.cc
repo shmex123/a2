@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
 		RequestEvent r = RequestEvent(url);
 		std::cout << "Request: " << url << std::endl;
 		std::cout << c << std::endl;
-		TCPConnection con = TCPConnection(&reader, "127.0.0.1", "11111");
+		TCPConnection con = TCPConnection(&reader, "montpelier", "11111");
 		con.sendEvent(c);
 		con.sendEvent(r);
 		std::cout << "Sent request event!" << std::endl;

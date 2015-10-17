@@ -64,7 +64,7 @@ namespace a2 {
 		name[149] = '\0';
 		gethostname(name, 149);
 		std::string hostname = std::string(name);
-		std::cout << "Hostname: " << std::endl;
+		std::cout << "Hostname: " << hostname << std::endl;
 		
 		NetTuple* ptr = NULL;
 		for(NetTuple tuple : nodes) {
