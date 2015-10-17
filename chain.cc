@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 #include "chain.h"
 #include "protocol.h"
 #include "utils.h"
@@ -52,11 +54,13 @@ namespace a2 {
 	}
 
 	NetTuple* Chain::getNextSS() {
-		return NULL;
+		srand(time(NULL));
+		int index = rand() % nodes.size();
+		return &nodes[index];
 	}
 
 	bool Chain::isLastHop(NetTuple tuple) {
-		return false;
+		return nodes.back() == tuple;
 	}
 
 	NetTuple* Chain::getTupleFromHostname() {

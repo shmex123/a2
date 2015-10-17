@@ -53,7 +53,8 @@ int main(int argc, char** argv) {
 		RequestEvent r = RequestEvent(url);
 		std::cout << "Request: " << url << std::endl;
 		std::cout << c << std::endl;
-		TCPConnection con = TCPConnection(&reader, "montpelier", "11111");
+		NetTuple* tuple = c.getNextSS();
+		TCPConnection con = TCPConnection(&reader, tuple->server, tuple->port);
 		con.sendEvent(c);
 		con.sendEvent(r);
 		std::cout << "Sent request event!" << std::endl;

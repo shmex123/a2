@@ -51,8 +51,10 @@ void Tunnel::handleRequestEvent(RequestEvent& r) {
 }
 
 void Tunnel::performWget(RequestEvent& r) {
+	std::cout << "Performing wget...\n";
 }
 
 void Tunnel::forwardRequest(RequestEvent& r) {
+	std::cout << "Performing forward...\n";
 }
 }
