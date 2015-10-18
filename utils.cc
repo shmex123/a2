@@ -4,6 +4,7 @@
  */
 
 #include <string>
+#include <fstream>
 #include <vector>
 #include "utils.h"
 
@@ -27,6 +28,12 @@ std::string Utils::filenameFromUrl(std::string url) {
 	} else {
 		return url.substr(found + 1);
 	}
+}
+
+void Utils::writeStringToFile(std::string filename, std::string val) {
+	std::ofstream out(filename);
+	out << val;
+	out.close();
 }
 
 }

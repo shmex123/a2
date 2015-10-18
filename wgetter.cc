@@ -20,20 +20,19 @@ DocumentEvent* Wgetter::wget(RequestEvent& r) {
 	std::string cmd = "wget ";
 	cmd += r.url;
 	exec(cmd);
-	std::cout << "genterating doc\n";
 	std::vector<unsigned char> doc = std::vector<unsigned char>();
 	std::string filename = Utils::sharedInstance().filenameFromUrl(r.url);
 	std::ifstream t(filename);
 	std::string docString((std::istreambuf_iterator<char>(t)),
 				std::istreambuf_iterator<char>());
+	std::cout << "size of doc string: " << docString.size() << std::endl;
 	doc.insert(doc.end(), docString.begin(), docString.end());
 	return new DocumentEvent(doc);
 }
 
 void Wgetter::exec(std::string cmd) {
-	/*
 	FILE* pipe = popen(cmd.c_str(), "r");
-	if (!pipe) return "ERROR";
+	//if (!pipe) return "ERROR";
 	char buffer[128];
 	std::string result = "";
 	while (!feof(pipe)) {
@@ -42,8 +41,7 @@ void Wgetter::exec(std::string cmd) {
 	}
 	pclose(pipe);
 	std::cout << result << std::endl;
-	return result;
-	*/
-	system(cmd.c_str());
+	//return result;
+	//system(cmd.c_str());
 }
 }

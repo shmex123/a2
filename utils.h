@@ -18,6 +18,7 @@ class Utils {
 	int charsToInt(std::vector<unsigned char> chars);
 	std::vector<unsigned char> intToChars(int val);
 	std::string filenameFromUrl(std::string url);
+	void writeStringToFile(std::string filename, std::string val);
 	private:
 	Utils(){};
 };

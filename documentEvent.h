@@ -19,6 +19,7 @@ class DocumentEvent: public Event {
 	friend std::ostream& operator<<(std::ostream& o, const DocumentEvent& data);
 	int getType() override;
 	std::vector<unsigned char> getBytes() override;
+	void writeToFile(std::string filename);
 	private:
 	std::vector<unsigned char> documentData;
 };

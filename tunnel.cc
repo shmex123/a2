@@ -50,6 +50,7 @@ void Tunnel::handleRequestEvent(RequestEvent& r) {
 }
 
 void Tunnel::handleDocumentEvent(DocumentEvent& d) {
+	std::cout << "DOCUMENT\n" << d << std::endl;
 	sourceConnection->sendEvent(d);
 }
 

@@ -25,7 +25,7 @@ void Reader::handleEvent(Event& event) {
 }
 
 void Reader::handleDocumentEvent(DocumentEvent& doc) {
-	std::cout << doc << std::endl;
+	//doc.writeToFile(filename);
 	throw std::runtime_error("");
 }
 
@@ -59,6 +59,7 @@ int main(int argc, char** argv) {
 	try {
 		Chain c = ChainfileParser::sharedInstance().parse(filename);
 		RequestEvent r = RequestEvent(url);
+		reader.filename = Utils::sharedInstance().filenameFromUrl(url);
 		std::cout << "Request: " << url << std::endl;
 		std::cout << c << std::endl;
 		NetTuple* tuple = c.getNextSS();
