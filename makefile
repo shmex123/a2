@@ -16,7 +16,7 @@ $(AWGET): reader.cc
 	$(CC) $(CFLAGS) -o $(AWGET) reader.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc eventFactory.cc documentEvent.cc
 
 $(SS): steppingStone.cc
-	$(CC) $(CFLAGS) -o $(SS) steppingStone.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc eventFactory.cc tunnel.cc documentEvent.cc
+	$(CC) $(CFLAGS) -o $(SS) steppingStone.cc chain.cc chainfileParser.cc netTuple.cc utils.cc requestEvent.cc tcpConnection.cc eventFactory.cc tunnel.cc documentEvent.cc wgetter.cc
 
 clean:
 	$(RM) $(AWGET) $(SS)

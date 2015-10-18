@@ -3,6 +3,7 @@
  * -----------------------------------------------------------------------------
  */
 
+#include <string>
 #include <vector>
 #include "utils.h"
 
@@ -17,6 +18,15 @@ std::vector<unsigned char> Utils::intToChars(int val) {
 	for(int i = 0; i < 4; i++)
 		chars[3-i] = (val >> (i*8));
 	return chars;
+}
+
+std::string Utils::filenameFromUrl(std::string url) {
+	std::size_t found = url.find_last_of("/\\");
+	if(found == std::string::npos) {
+		return "index.html";
+	} else {
+		return url.substr(found + 1);
+	}
 }
 
 }

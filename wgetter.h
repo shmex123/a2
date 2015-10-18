@@ -20,7 +20,7 @@ public:
 	DocumentEvent* wget(RequestEvent& r);
 private:
 	Wgetter(){};
-	std::string exec(const char* cmd);
+	void exec(std::string cmd);
 };
 }
 

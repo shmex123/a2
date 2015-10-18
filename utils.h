@@ -17,6 +17,7 @@ class Utils {
 	}
 	int charsToInt(std::vector<unsigned char> chars);
 	std::vector<unsigned char> intToChars(int val);
+	std::string filenameFromUrl(std::string url);
 	private:
 	Utils(){};
 };

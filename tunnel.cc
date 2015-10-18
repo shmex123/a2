@@ -13,6 +13,7 @@
 #include "requestEvent.h"
 #include "documentEvent.h"
 #include "protocol.h"
+#include "wgetter.h"
 
 namespace a2 {
 
@@ -55,10 +56,8 @@ void Tunnel::handleDocumentEvent(DocumentEvent& d) {
 void Tunnel::performWget(RequestEvent& r) {
 	std::cout << "issuing wget for file " << r.url << std::endl;
 	std::vector<unsigned char> data = std::vector<unsigned char>();
-	std::string str = "This is test document data.";
-	data.insert(data.end(), str.begin(), str.end());
-	DocumentEvent d = DocumentEvent(data);
-	sourceConnection->sendEvent(d);
+	DocumentEvent* d = Wgetter::sharedInstance().wget(r);
+	sourceConnection->sendEvent(*d);
 }
 
 void Tunnel::forwardRequest(RequestEvent& r) {
