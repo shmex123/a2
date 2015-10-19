@@ -45,19 +45,24 @@ TCPConnection::TCPConnection(EventHandler* h, int s) {
 
 void TCPConnection::sendEvent(Event& event) {
 	std::vector<unsigned char> data = event.getBytes();
+	std::string str(data.begin(), data.end());
 	unsigned char* bytes = &data[0];
 	send(sockfd, bytes, data.size(), 0);
 }
 
 std::vector<unsigned char> TCPConnection::receive(int numBytes) {
-	unsigned char bytes[numBytes];
-	int response = recv(sockfd, bytes, numBytes, 0);
+	unsigned char buffer[numBytes];
 	std::vector<unsigned char> bytevector = std::vector<unsigned char>();
-	if(response <= 0) {
-		throw std::runtime_error("Socket closed.");
+	int numReceived = 0;
+	while(numReceived < numBytes) {
+		int response = recv(sockfd, buffer, numBytes, 0);
+		if(response <= 0) {
+			throw std::runtime_error("Socket closed.");
+		}
+		numReceived += response;
+		for(int i = 0; i < response; i++)
+			bytevector.push_back(buffer[i]);
 	}
-	for(int i = 0; i < numBytes; i++)
-		bytevector.push_back(bytes[i]);
 	return bytevector;
 }
 

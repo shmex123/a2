@@ -17,8 +17,6 @@ DocumentEvent::DocumentEvent(TCPConnection con) {
 	int datalen = Utils::sharedInstance().charsToInt(datalenbytes);
 	
 	documentData = con.receive(datalen);
-	std::string s(documentData.begin(), documentData.end());
-	std::cout << "I FUCKING RECEIVED: " << s << std::endl;
 }
 
 DocumentEvent::DocumentEvent(std::vector<unsigned char> data) {

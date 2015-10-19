@@ -25,12 +25,15 @@ DocumentEvent* Wgetter::wget(RequestEvent& r) {
 	std::ifstream t(filename);
 	std::string docString((std::istreambuf_iterator<char>(t)),
 				std::istreambuf_iterator<char>());
-	std::cout << "size of doc string: " << docString.size() << std::endl;
 	doc.insert(doc.end(), docString.begin(), docString.end());
+	std::string rmcmd = "rm ";
+	rmcmd += filename;
+	exec(rmcmd);
 	return new DocumentEvent(doc);
 }
 
 void Wgetter::exec(std::string cmd) {
+	cmd += " 2&>1 /dev/null";
 	FILE* pipe = popen(cmd.c_str(), "r");
 	//if (!pipe) return "ERROR";
 	char buffer[128];
@@ -40,8 +43,5 @@ void Wgetter::exec(std::string cmd) {
 			result += buffer;
 	}
 	pclose(pipe);
-	std::cout << result << std::endl;
-	//return result;
-	//system(cmd.c_str());
 }
 }
