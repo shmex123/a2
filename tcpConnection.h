@@ -20,6 +20,7 @@ class TCPConnection {
 	void sendEvent(Event& event);
 	std::vector<unsigned char> receive(int numBytes);
 	void join();
+	void close();
 	private:
 	std::string server;
 	std::string port;

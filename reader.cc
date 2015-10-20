@@ -8,6 +8,7 @@
 #include "chainfileParser.h"
 #include "requestEvent.h"
 #include "documentEvent.h"
+#include "errorEvent.h"
 #include "protocol.h"
 #include "tcpConnection.h"
 #include "utils.h"
@@ -17,16 +18,23 @@ using namespace a2;
 
 void Reader::handleEvent(Event& event) {
 	switch(event.getType()) {
-	case REQUEST_EVENT: std::cout << "handle event for request event called" << std:: endl; break;
-	case CHAIN_EVENT: std::cout << "handle event for chain event called" << std:: endl; break;
+	//case REQUEST_EVENT: std::cout << "handle event for request event called" << std:: endl; break;
+	//case CHAIN_EVENT: std::cout << "handle event for chain event called" << std:: endl; break;
 	case DOCUMENT_EVENT: handleDocumentEvent(static_cast<DocumentEvent&>(event)); break;
+	case ERROR_EVENT: handleErrorEvent(static_cast<ErrorEvent&>(event)); break;
 	default: std::cout << "unknown event sent to event handler" << std::endl; break;
 	}
 }
 
 void Reader::handleDocumentEvent(DocumentEvent& doc) {
-	//doc.writeToFile(filename);
+	doc.writeToFile(filename);
+	std::cout << "Received file " << filename << std::endl;
 	throw std::runtime_error("");
+}
+
+void Reader::handleErrorEvent(ErrorEvent& err) {
+	std::cerr << err.msg << std::endl;
+	throw std::runtime_error(err.msg);
 }
 
 
@@ -67,7 +75,8 @@ int main(int argc, char** argv) {
 		TCPConnection con = TCPConnection(&reader, tuple->server, tuple->port);
 		con.sendEvent(c);
 		con.sendEvent(r);
-		std::cout << "Sent request event!" << std::endl;
+		std::cout << "next SS is " << *tuple << std::endl;
+		std::cout << "waiting for file..." << std::endl;
 		con.join();
 		//std::vector<unsigned char> typebytes = con.receive(4);
 		//int type = Utils::sharedInstance().charsToInt(typebytes);

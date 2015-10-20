@@ -1,0 +1,38 @@
+
+Shane Price
+828334718
+
+
+I have a lot of files. I did not want to pack all of the logic of this 
+assigment into essentially 2 files so I split them up.
+
+I do not have an 'awget.h' or 'awget.cc' file. I used 'reader.h' and 
+'reader.cc' instead. However not all of the logic that the assignment
+page requested is in 'reader.cc'. I split the logic up.
+
+Here is a short breakdown of my files:
+
+chain.cc - responsible for conveying chaingang information. serializable
+chainfileParser.cc - just grabs the data from chain file and generates a Chain object.
+documentEvent.cc - responsible for conveying the requested document. serializable
+errorEvent.cc - responsible for conveying error information. serializable
+eventFactory.cc - based on received type, generates corresponding Event.
+event.h - abstract class to generalize network events
+eventHandler.h - interface to allow using class to respond to network events.
+netTuple.cc - just a server:port wrapper. serializable
+protocol.h - constants
+reader.cc - the 'awget' class and entry point
+requestEvent.cc - responsible for conveying request information. serializable
+steppingStone.cc - the 'ss' class and entry point
+tcpConnection.cc - handles all network logic
+tunnel.cc - a pair of tcpConnections owned by a stepping stone. forwards from sourceConnection to destConnection and vice versa
+utils.cc - just basic utilities
+wgetter.cc - handles the actual wget.
+
+Everything should work. My makefile is messy but I hope that's ok.
+My implementation depends on hostnames being sufficient server addresses.
+
+
+
+git log:
+

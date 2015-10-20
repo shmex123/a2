@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <netdb.h>
+#include <unistd.h>
 #include <cstring>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -70,6 +71,10 @@ void TCPConnection::join() {
 	if(pthread_join(recv_thread, NULL)) {
 		std::cout << "Error joining receive thread!" << std::endl;
 	}
+}
+
+void TCPConnection::close() {
+	::close(sockfd);
 }
 
 void* TCPConnection::startReceive(void* param) {

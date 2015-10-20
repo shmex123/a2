@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <iostream>
+#include <unistd.h>
 #include <cstring>
 #include <netdb.h>
 #include <sys/types.h>
@@ -39,7 +40,11 @@ void SteppingStone::startServer() {
         listen(sockfd, SERVER_BACKLOG);
 
 
-        printf("Waiting for a connection on localhost port %s\n", port.c_str());
+	char hn[150];
+	hn[149] = '\0';
+	gethostname(hn, 149);
+	std::string serv(hn);
+	std::cout << "SS listening on " << serv << ":" << port << std::endl;
 
         addr_size = sizeof their_addr;
 	while(1) {
@@ -49,7 +54,8 @@ void SteppingStone::startServer() {
 }
 void SteppingStone::onClientConnect(int new_sock_fd) {
 	std::cout << "Client connected." << std::endl;
-	tunnels.push_back(Tunnel(new_sock_fd));
+	Tunnel t = Tunnel(new_sock_fd);
+	tunnels.push_back(t);
 }
 
 void SteppingStone::start() {
@@ -58,7 +64,18 @@ void SteppingStone::start() {
 
 }
 
-int main() {
-	a2::SteppingStone ss = a2::SteppingStone("11111");
+int main(int argc, char **argv) {
+	std::string port = DEFAULT_SERVER_PORT;
+        int opt;
+        while((opt = getopt(argc, argv, "p:")) != -1) {
+                switch(opt) {
+                case 'p':
+                        port = optarg;
+                        break;
+                default:
+                        abort();
+                }
+        }
+	a2::SteppingStone ss = a2::SteppingStone(port);
 	ss.start();
 }

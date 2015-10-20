@@ -17,7 +17,7 @@ public:
                 static Wgetter instance;
                 return instance;
         }
-	DocumentEvent* wget(RequestEvent& r);
+	Event* wget(RequestEvent& r);
 private:
 	Wgetter(){};
 	void exec(std::string cmd);

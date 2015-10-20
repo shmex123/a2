@@ -12,6 +12,7 @@
 #include "chain.h"
 #include "requestEvent.h"
 #include "documentEvent.h"
+#include "errorEvent.h"
 #include "eventHandler.h"
 #include "event.h"
 
@@ -27,8 +28,10 @@ class Tunnel : public EventHandler {
 	void handleChainEvent(Chain& c);
 	void handleRequestEvent(RequestEvent& r);
 	void handleDocumentEvent(DocumentEvent& d);
+	void handleErrorEvent(ErrorEvent& e);
 	void performWget(RequestEvent& r);
 	void forwardRequest(RequestEvent& r);
+	void close();
 	
 };
 }

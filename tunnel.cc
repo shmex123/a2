@@ -12,6 +12,7 @@
 #include "event.h"
 #include "requestEvent.h"
 #include "documentEvent.h"
+#include "errorEvent.h"
 #include "protocol.h"
 #include "wgetter.h"
 
@@ -27,6 +28,7 @@ void Tunnel::handleEvent(Event& event) {
         case REQUEST_EVENT: handleRequestEvent(static_cast<RequestEvent&>(event)); break;
         case CHAIN_EVENT: handleChainEvent(static_cast<Chain&>(event)); break;
         case DOCUMENT_EVENT: handleDocumentEvent(static_cast<DocumentEvent&>(event)); break;
+	case ERROR_EVENT: handleErrorEvent(static_cast<ErrorEvent&>(event)); break;
         default: std::cout << "unknown event sent to event handler" << std::endl; break;
         }
 }
@@ -50,22 +52,44 @@ void Tunnel::handleRequestEvent(RequestEvent& r) {
 }
 
 void Tunnel::handleDocumentEvent(DocumentEvent& d) {
-	std::cout << "DOCUMENT\n" << d << std::endl;
+	std::cout << "relaying file..." << std::endl;
 	sourceConnection->sendEvent(d);
+	close();
+}
+
+void Tunnel::handleErrorEvent(ErrorEvent& e) {
+	std::cout << "error retrieving file, relaying details..." << std::endl;
+	sourceConnection->sendEvent(e);
+	close();
 }
 
 void Tunnel::performWget(RequestEvent& r) {
 	std::cout << "issuing wget for file " << r.url << std::endl;
 	std::vector<unsigned char> data = std::vector<unsigned char>();
-	DocumentEvent* d = Wgetter::sharedInstance().wget(r);
-	sourceConnection->sendEvent(*d);
+	Event* e = Wgetter::sharedInstance().wget(r);
+	sourceConnection->sendEvent(*e);
 }
 
 void Tunnel::forwardRequest(RequestEvent& r) {
 	NetTuple* tuple = chain->getNextSS();
 	std::cout << "next SS is " << *tuple << std::endl;
+	std::cout << "waiting for file..." << std::endl;
 	destConnection = new TCPConnection(this, tuple->server, tuple->port);
 	destConnection->sendEvent(*chain);
 	destConnection->sendEvent(r);
 }
+
+void Tunnel::close() {
+	if(sourceConnection != NULL) {
+		sourceConnection->close();
+		delete sourceConnection;
+		sourceConnection = NULL;
+	}
+	if(destConnection != NULL) {
+		destConnection->close();
+		delete destConnection;
+		destConnection = NULL;
+	}
+}
+
 }

@@ -11,6 +11,7 @@
 #include "protocol.h"
 #include "requestEvent.h"
 #include "documentEvent.h"
+#include "errorEvent.h"
 #include "chain.h"
 #include "utils.h"
 
@@ -23,6 +24,7 @@ Event* EventFactory::createEvent(TCPConnection con) {
 	case REQUEST_EVENT: return new RequestEvent(con);
 	case CHAIN_EVENT: return new Chain(con);
 	case DOCUMENT_EVENT: return new DocumentEvent(con);
+	case ERROR_EVENT: return new ErrorEvent(con);
 	default: return NULL;
 	}
 }
